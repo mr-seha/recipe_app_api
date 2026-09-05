@@ -1,0 +1,47 @@
+[tool.ruff]
+# Maximum line length
+line-length = 88
+
+# Files/directories that Ruff should completely ignore
+exclude = [
+    ".git",
+    ".github",
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+
+    # Django
+    "*/migrations/*",
+    "manage.py",
+    "settings.py",
+
+    # Build / deployment
+    "staticfiles",
+    "static",
+    "media",
+
+    # Generated files
+    "*.min.js",
+    "*.min.css",
+]
+
+[tool.ruff.lint]
+# Rules to enable
+select = [
+    "E",  # pycodestyle
+    "F",  # Pyflakes
+    "I",  # isort
+]
+
+# Rules to ignore
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.format]
+# Formatter settings
+quote-style = "single"
+indent-style = "space"
+line-ending = "auto"
