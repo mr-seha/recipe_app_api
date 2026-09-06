@@ -14,4 +14,4 @@ jobs:
       - name: Test
         run: docker compose run --rm app python3 manage.py test
       - name: lint
-        run: docker compose run --rm app ruff check .
+        run: docker compose run --rm app ruff check --no-cache .
