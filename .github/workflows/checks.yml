@@ -12,6 +12,6 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: Test
-        run: docker compose run --rm app python manage.py test
+        run: docker compose run --rm app python3 manage.py test
       - name: lint
         run: docker compose run --rm app ruff check .
