@@ -12,9 +12,14 @@ EXPOSE 8000
 
 ARG DEV=false
 RUN python -m venv /py
+
+ENV PIP_INDEX_URL https://package-mirror.liara.ir/repository/pypi/simple
+
 RUN /py/bin/pip install --upgrade pip
 
-#ENV PIP_INDEX_URL https://mirror-pypi.runflare.com/simple\
+RUN apk add --update --no-cache postgresql-client
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+     build-base postgresql-dev musl-dev
 
 RUN /py/bin/pip install -r /tmp/requirements.txt
 RUN if [ $DEV = "true" ]; \
