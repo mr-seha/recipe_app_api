@@ -34,7 +34,7 @@ class TestUserModel(TestCase):
             get_user_model().objects.create_user('', '12345sample')
 
     def test_create_superuser_successful(self):
-        user = get_user_model().objects.create_super_user('test2@example.com')
+        user = get_user_model().objects.create_superuser('test2@example.com')
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
 
