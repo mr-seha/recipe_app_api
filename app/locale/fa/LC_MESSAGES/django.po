@@ -1,0 +1,61 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-02 09:35+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: core/admin.py:14 core/admin.py:19
+msgid "permissions"
+msgstr "اجازه هااا"
+
+#: core/admin.py:20
+msgid "important dates"
+msgstr "تاریخ های مهم"
+
+#: core/models.py:13
+msgid "Email can not be empty!"
+msgstr "ایمیل کاربر نمیتواند خالی باشد!"
+
+#: core/models.py:26
+msgid "is active?"
+msgstr "فعال باشد؟"
+
+#: core/models.py:27
+msgid "is staff?"
+msgstr "ادمین هست؟"
+
+#: core/models.py:35 core/models.py:36 user/apps.py:6
+msgid "user"
+msgstr "کاربر"
+
+#: core/tests/test_admin.py:45
+msgid "email"
+msgstr "ایمیل"
+
+#: core/tests/test_admin.py:46
+msgid "password"
+msgstr "رمز عبور"
+
+#: user/apps.py:7
+#, fuzzy
+#| msgid "user"
+msgid "users"
+msgstr "کاربر"
+
+#: user/serializers.py:32
+msgid "User with this email and password not found."
+msgstr "کاربری با این ایمیل و پسورد یافت نشد."
