@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-02 09:35+0330\n"
+"POT-Creation-Date: 2026-10-04 22:07+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,19 +26,19 @@ msgstr "اجازه هااا"
 msgid "important dates"
 msgstr "تاریخ های مهم"
 
-#: core/models.py:13
+#: core/models.py:14
 msgid "Email can not be empty!"
 msgstr "ایمیل کاربر نمیتواند خالی باشد!"
 
-#: core/models.py:26
+#: core/models.py:27
 msgid "is active?"
 msgstr "فعال باشد؟"
 
-#: core/models.py:27
+#: core/models.py:28
 msgid "is staff?"
 msgstr "ادمین هست؟"
 
-#: core/models.py:35 core/models.py:36 user/apps.py:6
+#: core/models.py:36 core/models.py:37 user/apps.py:7
 msgid "user"
 msgstr "کاربر"
 
@@ -50,12 +50,16 @@ msgstr "ایمیل"
 msgid "password"
 msgstr "رمز عبور"
 
-#: user/apps.py:7
+#: recipe/apps.py:6
+msgid "recipe"
+msgstr ""
+
+#: user/apps.py:8
 #, fuzzy
 #| msgid "user"
 msgid "users"
 msgstr "کاربر"
 
-#: user/serializers.py:32
+#: user/serializers.py:39
 msgid "User with this email and password not found."
 msgstr "کاربری با این ایمیل و پسورد یافت نشد."
