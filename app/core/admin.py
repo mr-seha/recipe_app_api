@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext as _
 
-from .models import User
+from .models import Recipe, Tag, User
 
 
 @admin.register(User)
@@ -21,5 +21,11 @@ class UserAdmin(BaseUserAdmin):
 
     ]
 
+    readonly_fields = ['last_login']
 
-readonly_fields = ['last_login']
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Recipe)
