@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-04 22:07+0330\n"
+"POT-Creation-Date: 2026-10-14 19:47+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,9 +38,13 @@ msgstr "فعال باشد؟"
 msgid "is staff?"
 msgstr "ادمین هست؟"
 
-#: core/models.py:36 core/models.py:37 user/apps.py:7
+#: core/models.py:36 core/models.py:37 core/models.py:64 user/apps.py:7
 msgid "user"
 msgstr "کاربر"
+
+#: core/models.py:42 core/models.py:63
+msgid "name"
+msgstr "نام"
 
 #: core/tests/test_admin.py:45
 msgid "email"
@@ -50,9 +54,9 @@ msgstr "ایمیل"
 msgid "password"
 msgstr "رمز عبور"
 
-#: recipe/apps.py:6
+#: recipe/apps.py:7
 msgid "recipe"
-msgstr ""
+msgstr "دستورالعمل"
 
 #: user/apps.py:8
 #, fuzzy
