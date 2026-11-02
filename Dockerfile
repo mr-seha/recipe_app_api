@@ -4,9 +4,9 @@ ENV PYTHONUNBUFFERED 1
 ENV PIP_INDEX_URL https://package-mirror.liara.ir/repository/pypi/simple
 ARG DEV=false
 
-RUN apk add --update --no-cache postgresql-client gettext
+RUN apk add --update --no-cache postgresql-client jpeg-dev gettext
 RUN apk add --update --no-cache --virtual .tmp-build-deps \
-     build-base postgresql-dev musl-dev
+     build-base postgresql-dev musl-dev zlib zlib-dev
 
 RUN python -m venv /py
 ENV PATH="/py/bin:$PATH"
@@ -27,4 +27,10 @@ WORKDIR /app
 EXPOSE 8000
 
 RUN adduser --disabled-password --no-create-home django-user
+
+RUN mkdir -p /vol/web/media && \
+    mkdir -p /vol/web/static && \
+    chown -R django-user:django-user /vol && \
+    chmod 755 -R /vol
+
 USER django-user

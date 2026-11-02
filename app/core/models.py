@@ -1,3 +1,6 @@
+import os
+from uuid import uuid4
+
 from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -6,6 +9,14 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+
+def recipe_image_file_path(instance, filename):
+    extension = filename.split('.')[-1]
+    # extension = os.path.splitext(filename)[1]
+    filename = f'{uuid4()}.{extension}'
+
+    return os.path.join('uploads', 'recipe', filename)
 
 
 class UserManager(BaseUserManager):
@@ -53,6 +64,16 @@ class Recipe(models.Model):
     description = models.TextField(blank=True)
     link = models.CharField(max_length=255, blank=True)
     tags = models.ManyToManyField('Tag')
+    ingredients = models.ManyToManyField('Ingredient')
+    image = models.ImageField(null=True, upload_to=recipe_image_file_path)
 
     def __str__(self):
         return self.title
+
+
+class Ingredient(models.Model):
+    name = models.CharField(max_length=255, verbose_name=_('name'))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_('user'))
+
+    def __str__(self):
+        return self.name
