@@ -1,16 +1,16 @@
+import os
+import tempfile
 from decimal import Decimal
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from PIL import Image
 from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.models import Ingredient, Recipe, Tag
 from recipe.serializers import RecipeDetailSerializer, RecipeSerializer
-import tempfile
-import os
-from PIL import Image
 
 RECIPE_URL = reverse('recipe:recipe-list')
 
@@ -369,6 +369,46 @@ class PrivateRecipeAPITests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(recipe.ingredients.count(), 0)
+
+    def test_filter_by_tags(self):
+        recipe1 = create_recipe(self.user, title='res1')
+        recipe2 = create_recipe(self.user, title='res2')
+        recipe3 = create_recipe(self.user)
+
+        tag1 = Tag.objects.create(user=self.user, name='tag1')
+        tag2 = Tag.objects.create(user=self.user, name='tag2')
+
+        recipe1.tags.add(tag1)
+        recipe2.tags.add(tag2)
+
+        params = {'tags': f'{tag1.id},{tag2.id}'}
+        response = self.client.get(RECIPE_URL, params)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn(RecipeSerializer(recipe1).data, response.data)
+        self.assertIn(RecipeSerializer(recipe2).data, response.data)
+        self.assertNotIn(RecipeSerializer(recipe3).data, response.data)
+
+    def test_filter_by_ingredients(self):
+        recipe1 = create_recipe(self.user, title='res1')
+        recipe2 = create_recipe(self.user, title='res2')
+        recipe3 = create_recipe(self.user)
+
+        ingredient1 = Ingredient.objects.create(user=self.user, name='ing1')
+        ingredient2 = Ingredient.objects.create(user=self.user, name='ing2')
+
+        recipe1.ingredients.add(ingredient1)
+        recipe2.ingredients.add(ingredient2)
+
+        params = f'?ingredients={ingredient1.id}&ingredients={ingredient2.id}'
+
+        response = self.client.get(RECIPE_URL + params)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertIn(RecipeSerializer(recipe1).data, response.data)
+        self.assertIn(RecipeSerializer(recipe2).data, response.data)
+        self.assertNotIn(RecipeSerializer(recipe3).data, response.data)
 
 
 class ImageUploadTest(TestCase):

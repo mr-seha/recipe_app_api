@@ -1,4 +1,7 @@
 from django.shortcuts import get_object_or_404
+from django_filters import rest_framework as filters
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.mixins import DestroyModelMixin, ListModelMixin, UpdateModelMixin
@@ -12,14 +15,29 @@ from core.models import Ingredient, Recipe, Tag
 from .serializers import (
     IngredientSerializer,
     RecipeDetailSerializer,
+    RecipeImageSerializer,
     RecipeSerializer,
-    TagSerializer, RecipeImageSerializer,
+    TagSerializer,
 )
 
 
+@extend_schema(
+    # extra parameters added to the schema
+    parameters=[
+        OpenApiParameter(name='tags', description='Filter by tags', required=False, type=str),
+        OpenApiParameter(
+            name='ingredients',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Filter by ingredients',
+        ),
+    ]
+)
 class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_fields = ['ingredients']
 
     @action(methods=['POST'], detail=True, url_path='upload-image')
     def upload_image(self, request, pk=None):
@@ -30,6 +48,11 @@ class RecipeViewSet(ModelViewSet):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def get_queryset(self):
+        tags = self.request.query_params.get('tags')
+
+        if tags:
+            tag_ids = [int(id) for id in tags.split(',')]
+            self.queryset = self.queryset.filter(tags__id__in=tag_ids)
         return self.queryset.order_by('-id').filter(user=self.request.user)
 
     def get_serializer_class(self):
@@ -55,15 +78,23 @@ class TagViewSet(ListModelMixin,
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        assigned_only = bool(int(self.request.query_params.get('assigned_only', 0)))
+        if assigned_only:
+            self.queryset = self.queryset.filter(recipe__isnull=False)
+        return self.queryset.filter(user=self.request.user).distinct()
 
 
 class IngredientList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        assigned_only = bool(int(request.query_params.get('assigned_only', 0)))
+
         queryset = Ingredient.objects.filter(user=request.user).order_by('-name')
-        serializer = IngredientSerializer(queryset, many=True)
+
+        if assigned_only:
+            queryset = queryset.filter(recipe__isnull=False)
+        serializer = IngredientSerializer(queryset.distinct(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
